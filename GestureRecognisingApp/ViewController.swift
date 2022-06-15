@@ -13,6 +13,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var swipeDirectionLabel: UILabel!
     
     var marvelCharacterArray : [String] = ["Image1","Image2","Image3","Image4"]
+    var position = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,6 +25,9 @@ class ViewController: UIViewController {
         //Selector = which function would this gesture act upon ?
         //The selector function is usually "objc" type.
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(ViewController.handleLeftSwipe(gesture:)))
+        //Default direction of UISwipeGestureRecognizer is swiping right.
+        //We want the direction to be left for our swipe gesture.
+        swipeGesture.direction = UISwipeGestureRecognizer.Direction.left
         
         //We want the swipe gesture on the imageView so we attach it like this -
         marvelImageView.addGestureRecognizer(swipeGesture)
@@ -36,8 +40,16 @@ class ViewController: UIViewController {
     
     //To swipe the images
     @objc func handleLeftSwipe(gesture : UISwipeGestureRecognizer) -> Void {
-        //Simple message:
-        print("Swipe Done")
+        print("Swipe Done") //Simple message
+        
+        position += 1 //incrementing the position with every left swipe to change the image.
+        
+        if position == marvelCharacterArray.count{
+            position = 0
+        }
+        print(marvelCharacterArray[position])
+        
+        marvelImageView.image = UIImage(named: marvelCharacterArray[position])
     }
 
 }
